@@ -11,16 +11,14 @@ Adds a to_b62 function to the Integer class that encodes any integer between 0 a
 
 ## Install
 
-At this moment I have not pushed the gem to rubygems yet, but you can install it directly from Github just like that:
-
 ```shell
-gem install git://github.com/planas/b62.git
+gem install b62
 ```
 
 Or add it to your Gemfile as well:
 
 ```ruby
-gem 'b62', :git => git://github.com/planas/b62.git
+gem 'b62', '~> 1.0'
 ```
 
 ## Use
