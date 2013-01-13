@@ -14,33 +14,25 @@ static const char b62_table[] = { "0123456789"
                                   "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                   "abcdefghijklmnopqrstuvwxyz" };
 
-int encode(u_int64_t input, char* ptr) 
+static VALUE encode(VALUE self, VALUE arg)
 {
-  short i = 11;
-  u_int64_t r = 0;
+  u_int64_t input = NUM2ULL(arg);
+  char output[12];
+  unsigned short i = 11;
 
-  ptr[i] = '\0';
+  output[i] = '\0';
 
   do
   { 
-    i--;
-    r = input % 62;
-    input = (input - r) / 62;
-    ptr[i] = b62_table[r];
-  }while(input > 0);
+    output[--i] = b62_table[input % 62]; 
+  }
+  while((input = input / 62) > 0);
 
-  return i;
-}
-
-static VALUE encode62(VALUE self, VALUE arg)
-{
-  char output[12];
-  
-  return rb_str_new2(&output[encode(NUM2ULL(arg), output)]);
+  return rb_str_new2(&output[i]);
 }
 
 void Init_b62(void)
 {
   VALUE klass = rb_define_class("B62", rb_cObject);
-  rb_define_singleton_method(klass, "to_b62", encode62, 1);
+  rb_define_singleton_method(klass, "to_b62", encode, 1);
 }
